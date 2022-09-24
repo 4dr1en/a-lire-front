@@ -18,30 +18,26 @@ const login = ref("");
 const password = ref("");
 
 const sendLogin = () => {
-  try {
-    fetch("http://localhost:80/api/login_check", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        pseudo: login.value,
-        password: password.value,
-      }),
+  fetch("http://localhost:80/api/login_check", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      pseudo: login.value,
+      password: password.value,
+    }),
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        console.log(res);
+      }
     })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          console.log(res);
-        }
-      })
-      .then((data) => {
-        console.log(data);
-      });
-  } catch (error) {
-    console.log(error + 2);
-  }
+    .then((data) => {
+      console.log(data);
+    });
 };
 
 </script>

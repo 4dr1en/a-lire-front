@@ -9,8 +9,8 @@
       <button type="submit" @click.prevent="sendLogin">Login</button>
     </form>
 
-    <AlertBox type="info" :show="showError" @close="showError = false">{{
-      errorTxt
+    <AlertBox :type="popupType" :show="showPopup" @close="showPopup = false">{{
+      popupTxt
     }}</AlertBox>
   </div>
 </template>
@@ -18,12 +18,14 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import AlertBox from '@/components/AlertBox.vue';
+import { useUserStore } from '@/stores/user';
 
 const login = ref('');
 const password = ref('');
 
-const showError = ref(false);
-const errorTxt = ref('');
+const showPopup = ref(false);
+const popupTxt = ref('');
+const popupType = ref<'success' | 'error'>('success');
 
 const sendLogin = () => {
   fetch('http://localhost:80/api/login_check', {
@@ -43,7 +45,11 @@ const sendLogin = () => {
       return response.json();
     })
     .then((data) => {
-      console.log(data);
+      if ('token' in data) {
+        finalizeConnection(data);
+      } else {
+        throw new Error('No token in response');
+      }
     })
     .catch((error) => {
       console.error('Error:', error);
@@ -52,20 +58,27 @@ const sendLogin = () => {
 };
 
 const showErrors = (error: unknown) => {
+  popupType.value = 'error';
   if (error instanceof Error) {
-    console.log('error instanceof Error');
-    console.log(error.message);
-    errorTxt.value = error.message;
-    showError.value = true;
+    popupTxt.value = error.message;
+    showPopup.value = true;
   }
   if (error instanceof Response) {
-    console.log('error instanceof Response');
     error.json().then((data) => {
-      console.log(data);
-      errorTxt.value = data.message;
-      showError.value = true;
+      popupTxt.value = data.message;
+      showPopup.value = true;
     });
   }
+};
+
+const finalizeConnection = (data: { token: string }) => {
+  const userStore = useUserStore();
+  userStore.setToken(data.token);
+  userStore.setLogin(login.value);
+  console.log(`${userStore.user.login} is now connected `);
+  popupTxt.value = 'You are now connected';
+  showPopup.value = true;
+  popupType.value = 'success';
 };
 </script>
 

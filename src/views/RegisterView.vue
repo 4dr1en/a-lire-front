@@ -62,15 +62,18 @@ const sendRegister = () => {
       if (res.ok) {
         return res.json();
       } else {
-        // read body
         res.json().then((jsonErrors) => {
-          if (jsonErrors.pseudo) {
+          if (!('errors' in jsonErrors)) {
+            return;
+          }
+          const error = jsonErrors.errors;
+          if (error.pseudo) {
             formError.login = jsonErrors.errors.pseudo;
           }
-          if (jsonErrors.email) {
+          if (error.email) {
             formError.email = jsonErrors.errors.email;
           }
-          if (jsonErrors.password) {
+          if (error.password) {
             formError.password = jsonErrors.errors.password;
           }
         });
@@ -98,5 +101,9 @@ const sendRegister = () => {
 
 <style scoped>
 .fielgroup {
+}
+
+.field-error {
+  color: rgb(241, 90, 90);
 }
 </style>

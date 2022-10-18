@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, toRef, watch } from 'vue';
+import { toRef, computed } from 'vue';
 
 const props = defineProps<{
   type: 'success' | 'error' | 'warning' | 'info';
@@ -40,17 +40,14 @@ const closeAlert = () => {
   show.value = false;
 };
 
-const alertBoxClasses = reactive({
-  'alert-box--success': false,
-  'alert-box--error': false,
-  'alert-box--warning': false,
-  'alert-box--info': false,
+const alertBoxClasses = computed(() => {
+  return {
+    'alert-box--success': props.type === 'success',
+    'alert-box--error': props.type === 'error',
+    'alert-box--warning': props.type === 'warning',
+    'alert-box--info': props.type === 'info',
+  };
 });
-const k = `alert-box--${props.type}`;
-
-if (k in alertBoxClasses) {
-  alertBoxClasses[k as keyof typeof alertBoxClasses] = true;
-}
 </script>
 
 <style lang="scss" scoped>

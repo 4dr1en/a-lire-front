@@ -30,16 +30,15 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
-// pinia user store
 import { useUserStore } from '@/stores/user';
-// router
 import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const login = ref('');
 const email = ref('');
 const password = ref('');
 
-// form errors states
 const formError = reactive({
   login: '',
   email: '',
@@ -90,10 +89,7 @@ const sendRegister = () => {
         userStore.setLogin(login.value);
         userStore.setEmail(email.value);
         console.log(`${userStore.user.login} is  now registred`);
-
-        /**
-         * TODO : redirect to home
-         */
+        router.push('/');
       }
     });
 };

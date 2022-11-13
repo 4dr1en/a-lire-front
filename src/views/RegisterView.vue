@@ -52,7 +52,7 @@ const sendRegister = () => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      pseudo: login.value,
+      username: login.value,
       email: email.value,
       password: password.value,
     }),

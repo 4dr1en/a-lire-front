@@ -28,13 +28,13 @@ const popupTxt = ref('');
 const popupType = ref<'success' | 'error'>('success');
 
 const sendLogin = () => {
-  fetch('http://localhost:80/api/login_check', {
+  fetch('http://localhost:80/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      pseudo: login.value,
+      username: login.value,
       password: password.value,
     }),
   })

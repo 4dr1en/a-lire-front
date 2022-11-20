@@ -66,8 +66,8 @@ const sendRegister = () => {
             return;
           }
           const error = jsonErrors.errors;
-          if (error.pseudo) {
-            formError.login = jsonErrors.errors.pseudo;
+          if (error.username) {
+            formError.login = jsonErrors.errors.username;
           }
           if (error.email) {
             formError.email = jsonErrors.errors.email;

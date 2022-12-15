@@ -2,12 +2,19 @@
   <div>
     <h1>{{ flux.title }}</h1>
     <p>{{ flux.description }}</p>
-    <date>créé le : {{ flux.created_at }}</date>
+    <date v-if="flux.created_at">créé le : {{ flux.created_at }}</date>
     <div>
       <ul>
-        <li v-for="article in flux.articles" :key="article.id">
-          <h2>{{ article.title }}</h2>
-          <img v-if="article.thumbnail" :src="article.thumbnail" :alt="article.title" />
+        <li v-for="article in flux.articles" :key="article.id" class="card-article">
+          <router-link :to="'/articles/' + article.id">
+            <h2 class="card-article__title">{{ article.title }}</h2>
+            <img
+              class="card-article__thumbnail"
+              v-if="article.thumbnail"
+              :src="article.thumbnail"
+              :alt="article.title"
+            />
+          </router-link>
         </li>
       </ul>
     </div>
@@ -17,17 +24,17 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import type { Ref } from 'vue';
-import type Flux from '../interfaces/fluxFullI';
+import type Article from '../interfaces/fluxFullI';
 import { useRouter, useRoute } from 'vue-router';
 
-const flux: Ref<Flux> = ref({
+const flux: Ref<Article> = ref({
   id: 0,
   title: '',
   description: '',
   slug: '',
   created_at: '',
-  updatedAt: null,
-  createdBy: '',
+  updated_at: null,
+  created_by: '',
   articles: [],
 });
 
@@ -48,4 +55,8 @@ function getFluxes() {
 }
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.card-article__thumbnail {
+  width: 400px;
+}
+</style>

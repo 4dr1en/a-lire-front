@@ -38,6 +38,11 @@ const router = createRouter({
       name: "flux",
       component: () => import("../views/FluxView.vue"),
     },
+        {
+      path: "/articles/:id",
+      name: "article",
+      component: () => import("../views/ArticleView.vue"),
+    },
   ],
 });
 

@@ -33,4 +33,9 @@ export const useUserStore = defineStore('user', () => {
     setLogin,
     logout,
   };
-});
+},{
+  persist: {
+    enabled: true,
+    restore: true,
+    storage: 'local'
+}});

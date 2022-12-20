@@ -6,12 +6,14 @@
       <span class="article__comment__date">{{ comment.created_at }}</span>
     </p>
     <p class="article__comment__text">{{ comment.text }}</p>
+    <CommentForm :article="article" :parentComment="comment" />
     <div
       class="comment__children"
       v-if="comment.children_comments && comment.children_comments.length"
     >
       <RecComment
         :comment="child"
+        :article="article"
         v-for="child in comment.children_comments"
         :key="child.id"
       />
@@ -21,10 +23,13 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import CommentForm from '../components/forms/CommentForm.vue';
 import type { ImbricatedCommentI } from '../interfaces/commentI';
+import type Article from '../interfaces/articleFullI';
 
 const props = defineProps<{
   comment: ImbricatedCommentI;
+  article: Article;
 }>();
 
 const comment = ref(props.comment);

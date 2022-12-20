@@ -4,12 +4,12 @@ import type {ImbricatedCommentI} from '../interfaces/CommentI';
  * Orders the comments in a nested structure.
  */
 export default function( comments:Comment[]): ImbricatedCommentI[]{
-	const imbricatedComment: ImbricatedCommentI[] = getRootComments(comments);
-	imbricatedComment.forEach( (comment:ImbricatedCommentI) => {
+	const imbricatedComments: ImbricatedCommentI[] = getRootComments(comments);
+
+	imbricatedComments.forEach( (comment:ImbricatedCommentI) => {
 		comment.children_comments = getAllChildComments(comment, comments);
 	});
-
-	return imbricatedComment;
+	return imbricatedComments;
 }
 
 /**
@@ -27,7 +27,7 @@ function getAllChildComments( comment: Comment ,  children:Comment[] ):Imbricate
 	const childComments: Comment[] = getImmediateChildComments(comment, children);
 	childComments.forEach( (child:Comment) => {
 		const subChildComments = getAllChildComments(child, children);
-		Comment.children_comments = subChildComments;
+		child.children_comments = subChildComments;
 	});
 	return childComments;
 }

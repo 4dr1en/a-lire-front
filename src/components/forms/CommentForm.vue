@@ -13,21 +13,27 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import { useUserStore } from '@/stores/user';
 import type { Ref } from 'vue';
 import type Article from '../../interfaces/articleFullI';
+import type CommentI from '../../interfaces/commentI';
 
 const userStore = useUserStore();
 
-const props = defineProps<{ article: Article }>();
+const props = defineProps<{
+  article: Article;
+  parentComment?: CommentI;
+}>();
 
 const comment: Ref<{
   text: string;
   article: number;
+  parentComment: number | null;
 }> = ref({
   text: '',
   article: props.article.id,
+  parentComment: props.parentComment ? props.parentComment.id : null,
 });
 
 function submitCommentForm() {

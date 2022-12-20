@@ -19,24 +19,23 @@
     <div class="article__comments">
       <h2>Commentaires</h2>
       <RecComment
+        :article="article"
         :comment="comment"
         v-for="comment in imbricatedComments"
         :key="comment.id"
       />
     </div>
-    <CommentForm :article="article" v-if="article.id" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import RecComment from '@/components/RecComment.vue';
+import orderComments from '@/services/orderComments';
 import type { Ref } from 'vue';
 import type Article from '../interfaces/articleFullI';
 import type { ImbricatedCommentI } from '../interfaces/commentI';
-import { useRouter, useRoute } from 'vue-router';
-import CommentForm from '../components/forms/CommentForm.vue';
-import RecComment from '@/components/RecComment.vue';
-import orderComments from '@/services/orderComments';
 
 const article: Ref<Article> = ref({
   id: 0,

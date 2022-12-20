@@ -1,9 +1,7 @@
 <template>
-  <p>Welcome my friends</p>
+  <p>Welcome</p>
 </template>
 
-<script setup lang="ts">
-console.log('toto');
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss" scoped></style>

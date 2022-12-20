@@ -11,3 +11,7 @@ export default interface CommentI {
 	belong_to_article: string,
 	parent_comment: number,
 }
+
+export interface ImbricatedCommentI extends CommentI {
+	children_comments: ImbricatedCommentI[];
+}

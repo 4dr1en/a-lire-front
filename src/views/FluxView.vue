@@ -44,7 +44,6 @@ onMounted(() => {
 
 function getFluxes() {
   const $route = useRoute();
-  console.warn($route.params.id);
   fetch('http://localhost:80/fluxes/' + $route.params.id)
     .then((res) => {
       return res.json();

@@ -1,6 +1,17 @@
 <template>
-  <div>
-    <form id="comment-form" @submit.prevent="submitCommentForm">
+  <div v-if="userStore.isLoggedIn">
+    <button
+      v-if="parentComment !== undefined"
+      class="article__comment__reply-btn"
+      @click="showReplyForm = !showReplyForm"
+    >
+      Répondre
+    </button>
+    <form
+      v-if="showReplyForm || parentComment === undefined"
+      id="comment-form"
+      @submit.prevent="submitCommentForm"
+    >
       <textarea
         id="comment.content"
         cols="30"
@@ -13,12 +24,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useUserStore } from '@/stores/user';
 import type { Ref } from 'vue';
 import type Article from '../../interfaces/articleFullI';
 import type CommentI from '../../interfaces/commentI';
 
+const showReplyForm: Ref<boolean> = ref(false);
 const userStore = useUserStore();
 
 const props = defineProps<{
@@ -35,6 +47,13 @@ const comment: Ref<{
   article: props.article.id,
   parentComment: props.parentComment ? props.parentComment.id : null,
 });
+
+watch(
+  () => props.article,
+  (newVal) => {
+    comment.value.article = newVal.id;
+  }
+);
 
 function submitCommentForm() {
   const fetchParam = {

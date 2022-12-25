@@ -18,6 +18,7 @@
     </div>
     <div class="article__comments">
       <h2>Commentaires</h2>
+      <CommentForm :article="article" />
       <RecComment
         :article="article"
         :comment="comment"
@@ -36,6 +37,7 @@ import orderComments from '@/services/orderComments';
 import type { Ref } from 'vue';
 import type Article from '../interfaces/articleFullI';
 import type { ImbricatedCommentI } from '../interfaces/commentI';
+import CommentForm from '@/components/forms/CommentForm.vue';
 
 const article: Ref<Article> = ref({
   id: 0,
